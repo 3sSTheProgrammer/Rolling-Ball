@@ -5,6 +5,7 @@
 
 #include "DrawDebugHelpers.h"
 #include "RollingBallEnemyActor.h"
+#include "Components/AudioComponent.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values
@@ -47,6 +48,15 @@ void ARollingBallPawn::ResetToStartState()
 	// Set actor to starting place and stop it 
     SetActorTransform(StartingTransform);
 	PawnVelocity = 0.f;
+
+	// Stop rolling sound
+	if (RollSoundAudioComponent)
+	{
+		if (RollSoundAudioComponent->IsPlaying())
+		{
+			RollSoundAudioComponent->Stop();
+		}
+	}
 	IsVelocityIncreasing = false;
 }
 
@@ -221,6 +231,15 @@ void ARollingBallPawn::IncreaseVelocity()
 	// Stop pawn if moving
 	PawnVelocity = 0.0f;
 
+	// Stop rolling sound
+	if (RollSoundAudioComponent)
+	{
+		if (RollSoundAudioComponent->IsPlaying())
+		{
+			RollSoundAudioComponent->Stop();
+		}
+	}
+		
 	// Set flag to increase velocity
 	IsVelocityIncreasing = true;
 }
@@ -230,6 +249,9 @@ void ARollingBallPawn::AddVelocityImpulse()
 {
 	// Stop increasing velocity
 	IsVelocityIncreasing = false;
+
+	// Create rolling sound
+	RollSoundAudioComponent = UGameplayStatics::SpawnSoundAttached(RollSound, GetRootComponent());
 }
 
 // Used to process change direction input
@@ -238,6 +260,16 @@ void ARollingBallPawn::ChangeDirection(float Input)
 	// Stop pawn if moving
 	PawnVelocity = 0.0f;
 
+	// Stop rolling sound
+	if (RollSoundAudioComponent)
+	{
+		if (RollSoundAudioComponent->IsPlaying())
+		{
+			RollSoundAudioComponent->Stop();
+		}
+	}
+	
+		
 	// Set rotation input
 	RotationInput = Input;
 }
@@ -256,6 +288,15 @@ void ARollingBallPawn::UseAbility()
 	IsUsingAbility = true;
 	PawnVelocity = 0.f;
 
+	// Stop rolling sound
+	if (RollSoundAudioComponent)
+	{
+		if (RollSoundAudioComponent->IsPlaying())
+		{
+			RollSoundAudioComponent->Stop();
+		}
+	}
+	
 	// Get enemies that should be impacted by ability
 	EnemiesImpactedByAbility = GetEnemiesInRange(AbilityRange);
 

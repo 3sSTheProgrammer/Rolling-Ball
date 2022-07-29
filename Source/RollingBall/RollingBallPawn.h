@@ -55,6 +55,12 @@ public:
 	UPROPERTY(EditAnywhere)
 	float EnemyKillInterval{ 0.1f };
 	
+	// Sound playing while moving
+	UPROPERTY(EditAnywhere, Category = "Sounds")
+    USoundBase* RollSound;
+
+	UPROPERTY()
+	UAudioComponent* RollSoundAudioComponent;
 public:
 	// Sets default values for this pawn's properties
 	ARollingBallPawn();

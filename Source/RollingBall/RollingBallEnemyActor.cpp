@@ -4,6 +4,7 @@
 #include "RollingBallEnemyActor.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "RollingBallUserInterface.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ARollingBallEnemyActor::ARollingBallEnemyActor()
@@ -31,6 +32,8 @@ void ARollingBallEnemyActor::Die()
 		}
 	}
 
+	// Play destroy sound
+	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), DestroySound, GetActorLocation(), GetActorRotation());
 	
 	Destroy();
 }

@@ -26,6 +26,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Spawn Bridge")
 	TSubclassOf<AActor> BridgeActor;
 
+	UPROPERTY(EditAnywhere, Category = "Sounds")
+	USoundBase* DestroySound;
+	
 protected:
 	// Reference to player interface, saved for efficiency
 	UPROPERTY()
@@ -37,6 +40,7 @@ public:
 
 	// Called to remove self from level
 	void Die();
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
